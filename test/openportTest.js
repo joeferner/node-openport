@@ -1,6 +1,7 @@
 'use strict';
 
 var net = require('net');
+var http = require('http');
 var op = require('../');
 
 module.exports = {
@@ -198,5 +199,36 @@ module.exports = {
           test.done();
         });
     });
+  },
+
+  'create custom servers': function (test) {
+    var server = net.createServer();
+    server.listen(1024, function () {
+      op.find({
+        ports: [1024, 1025, 1026],
+        count: 2,
+        createServer: function (port, callback) {
+          var server = http.createServer(function (req, res) {
+          });
+          server.port = port;
+          server.once('error', function (ex) {
+            callback(ex);
+          });
+          server.listen(port, function () {
+            callback(null, server);
+          });
+        }
+      }, function (err, servers) {
+        test.ok(!err);
+        test.equals(servers.length, 2);
+        test.equals(servers[0].port, 1025);
+        test.equals(servers[1].port, 1026);
+        servers[0].close();
+        servers[1].close();
+        server.close();
+        test.done();
+      });
+    });
   }
 };
+

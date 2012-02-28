@@ -11,7 +11,7 @@ var available = function (port, callback) {
   });
   server.listen(port, function () {
     server.close();
-    callback(null, true);
+    callback(null, port);
   });
 };
 
@@ -35,7 +35,7 @@ function find () {
     callback = arguments[1];
   }
 
-  if(!callback) {
+  if (!callback) {
     throw new Error('callback is required');
   }
 
@@ -44,6 +44,7 @@ function find () {
   options.ports = options.ports;
   options.count = options.count || 1;
   options.avoid = options.avoid || [];
+  options.createServer = options.createServer || available;
 
   if (options.startingPort <= 0) {
     throw new Error("startingPort must be greater than 0");
@@ -78,8 +79,8 @@ function find () {
       return;
     }
 
-    available(port, function (err, free) {
-      if (free) {
+    options.createServer(port, function (err, port) {
+      if (!err && port) {
         results.push(port);
         if (results.length === options.count) {
           if (results.length === 1) {

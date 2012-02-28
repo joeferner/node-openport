@@ -32,7 +32,8 @@ op.find(
 op.find(
   {
     startingPort: 1024,
-    endingPort: 2000
+    endingPort: 2000,
+    avoid: [ 1025, 1500 ]
   }
   function(err, port) {
     if(err) { console.log(err); return; }

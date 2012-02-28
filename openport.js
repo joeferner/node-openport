@@ -29,14 +29,15 @@ function find () {
   options.endingPort = options.endingPort || maxPort;
   options.ports = options.ports;
   options.count = options.count || 1;
+  options.avoid = options.avoid || [];
 
-  if(options.startingPort <= 0){
+  if (options.startingPort <= 0) {
     throw new Error("startingPort must be greater than 0");
   }
-  if(options.endingPort > maxPort){
+  if (options.endingPort > maxPort) {
     throw new Error("endingPort must be less than " + maxPort);
   }
-  if(options.startingPort > options.endingPort){
+  if (options.startingPort > options.endingPort) {
     throw new Error("startingPort must be less than or equal to endingPort");
   }
 
@@ -57,6 +58,12 @@ function find () {
         return;
       }
     }
+
+    if (options.avoid.indexOf(port) >= 0) {
+      loop();
+      return;
+    }
+
     available(port, function (err, free) {
       if (free) {
         results.push(port);

@@ -16,6 +16,19 @@ module.exports = {
       });
   },
 
+  'find a port not in the avoid list': function (test) {
+    op.find(
+      {
+        ports: [ 1024, 1025 ],
+        avoid: [ 1024 ]
+      },
+      function (err, port) {
+        test.ok(!err);
+        test.equals(1025, port);
+        test.done();
+      });
+  },
+
   'port that requires sudo': function (test) {
     op.find(
       {

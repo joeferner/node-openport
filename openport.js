@@ -15,6 +15,15 @@ var available = function (port, callback) {
   });
 };
 
+function arrayContains (arr, val) {
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i] == val) {
+      return true;
+    }
+  }
+  return false;
+}
+
 // options, callback
 function find () {
   var callback;
@@ -59,7 +68,7 @@ function find () {
       }
     }
 
-    if (options.avoid.indexOf(port) >= 0) {
+    if (arrayContains(options.avoid, port)) {
       loop();
       return;
     }

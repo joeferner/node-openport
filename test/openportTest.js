@@ -19,12 +19,41 @@ module.exports = {
   'find a port not in the avoid list': function (test) {
     op.find(
       {
-        ports: [ 1024, 1025 ],
-        avoid: [ 1024 ]
+        ports: [ 1024, 1025, 1026, 1027 ],
+        avoid: [ 1025, 1026 ],
+        count: 2
       },
-      function (err, port) {
+      function (err, ports) {
         test.ok(!err);
-        test.equals(1025, port);
+        test.deepEqual([1024, 1027], ports);
+        test.done();
+      });
+  },
+
+  'find a port not in the avoid list outer case': function (test) {
+    op.find(
+      {
+        ports: [ 1024, 1025, 1026, 1027 ],
+        avoid: [ '1024', '1027' ],
+        count: 2
+      },
+      function (err, ports) {
+        test.ok(!err);
+        test.deepEqual([1025, 1026], ports);
+        test.done();
+      });
+  },
+
+  'find a port not in the avoid list starting port': function (test) {
+    op.find(
+      {
+        startingPort: 1024,
+        avoid: [ 1024, 1026 ],
+        count: 2
+      },
+      function (err, ports) {
+        test.ok(!err);
+        test.deepEqual([1025, 1027], ports);
         test.done();
       });
   },

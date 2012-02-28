@@ -34,6 +34,11 @@ function find () {
     options = arguments[0];
     callback = arguments[1];
   }
+
+  if(!callback) {
+    throw new Error('callback is required');
+  }
+
   options.startingPort = 'startingPort' in options ? options.startingPort : minUserPort;
   options.endingPort = options.endingPort || maxPort;
   options.ports = options.ports;

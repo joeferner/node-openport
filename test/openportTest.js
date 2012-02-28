@@ -4,6 +4,24 @@ var net = require('net');
 var op = require('../');
 
 module.exports = {
+  'bad arguments': function (test) {
+    try {
+      op.find();
+      test.fail("should throw");
+    } catch (ex) {
+      test.equals('callback is required', ex.message);
+    }
+    test.done();
+  },
+
+  'just a callback': function (test) {
+    op.find(function (err, port) {
+      test.ok(!err);
+      test.ok(parseInt(port) > 1000);
+      test.done();
+    });
+  },
+
   'find a single open port': function (test) {
     op.find(
       {

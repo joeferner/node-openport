@@ -13,11 +13,13 @@ $ npm install openport
 ```javascript
 var op = require('openport');
 
+// find an open port
 op.find(function(err, port) {
   if(err) { console.log(err); return; }
   // yea! we have an open port.
 });
 
+// find two open ports, choosing from 1024, 1025, 1026, 1028
 op.find(
   {
     ports: [ 1024, 1025, 1026, 1028 ],
@@ -29,6 +31,7 @@ op.find(
   }
 );
 
+// find an open port between 1024 and 2000, but not 1025 or 1500
 op.find(
   {
     startingPort: 1024,
@@ -41,6 +44,7 @@ op.find(
   }
 );
 
+// create 2 http servers
 op.find(
   {
     count: 2,

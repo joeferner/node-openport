@@ -3,7 +3,6 @@
   "description": "Finds open network ports.",
   "author": "Joe Ferner <joe.ferner@nearinfinity.com>",
   "keywords": ["port", "network", "open"],
-  "homepage": "https://github.com/nearinfinity/node-openport",
   "version": "0.0.2",
   "engines": { "node" : ">=0.6.0" },
   "maintainers": [
@@ -13,7 +12,7 @@
     "nodeunit": "0.7.3"
   },
   "bugs": { "url": "https://github.com/nearinfinity/node-openport/issues" },
-  "licenses": [ { "type" : "MIT" } ],
-  "repositories": { "type": "git", "url": "https://github.com/nearinfinity/node-openport.git" },
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/nearinfinity/node-openport.git" },
   "main": "./openport.js"
 }

@@ -3,7 +3,7 @@
   "description": "Finds open network ports.",
   "author": "Joe Ferner <joe@fernsroth.com>",
   "keywords": ["port", "network", "open"],
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": { "node" : ">=0.6.0" },
   "maintainers": [
     { "name": "Joe Ferner", "email": "joe@fernsroth.com" }

@@ -10,8 +10,9 @@ var available = function (port, callback) {
     callback(null, false);
   });
   server.listen(port, function () {
-    server.close();
-    callback(null, port);
+    server.close(function() {
+      callback(null, port);
+    });
   });
 };
 

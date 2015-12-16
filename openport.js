@@ -5,13 +5,22 @@ var minUserPort = exports.minUserPort = 1024;
 
 var available = function (port, callback) {
   var server = net.createServer();
+  var callbackCalled = false;
 
   server.on('error', function () {
-    callback(null, false);
+    if (!callbackCalled) {
+      callbackCalled = true;
+      callback(null, false);
+    }
   });
   server.listen(port, function () {
     server.close(function() {
-      callback(null, port);
+      setTimeout(function() {
+        if (!callbackCalled) {
+          callbackCalled = true;
+          callback(null, port);
+        }
+      }, 100);
     });
   });
 };

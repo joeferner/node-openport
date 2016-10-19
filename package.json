@@ -9,7 +9,10 @@
     { "name": "Joe Ferner", "email": "joe@fernsroth.com" }
   ],
   "devDependencies": {
-    "nodeunit": "0.7.3"
+    "nodeunit": "0.10.2"
+  },
+  "scripts": {
+    "test": "./node_modules/nodeunit/bin/nodeunit test"
   },
   "bugs": { "url": "https://github.com/joeferner/node-openport/issues" },
   "license": "MIT",

@@ -264,5 +264,23 @@ module.exports = {
         });
     });
   },
+  'finds open port on matched IPv4 with start and ending ports': function (test) {
+    var server = net.createServer();
+    // start on ipV4
+    server.listen({ host: '0.0.0.0', port: 1024 }, function () {
+      op.find(
+        {
+          host: '0.0.0.0',
+          startingPort: 1024,
+          endingPort: 1025,
+        },
+        function (err, port) {
+          test.ok(!err);
+          test.equals(1025, port);
+          server.close();
+          test.done();
+        });
+    });
+  },
 };
 

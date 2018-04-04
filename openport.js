@@ -20,12 +20,12 @@ var available = function (options, callback) {
   });
   server.listen(options, function () {
     server.close(function() {
-      setTimeout(function() {
+      process.nextTick(function() {
         if (!callbackCalled) {
           callbackCalled = true;
           callback(null, numPort);
         }
-      }, 100);
+      });
     });
   });
 };

@@ -229,6 +229,40 @@ module.exports = {
         test.done();
       });
     });
-  }
+  },
+  'finds open port on mismatched ip V 4 to 6 (and vice versa)': function (test) {
+    var server = net.createServer();
+    // start on ipV4
+    server.listen({ host: '0.0.0.0', port: 1024 }, function () {
+      op.find(
+        {
+          ports: [ 1024, 1025 ]
+        },
+        function (err, port) {
+          test.ok(!err);
+          test.notEqual(1025, port, 'uh oh we looked for ipV6');
+          test.equals(1024, port, 'yup I\'m a bozo');
+          server.close();
+          test.done();
+        });
+    });
+  },
+  'finds open port on matched IPv4': function (test) {
+    var server = net.createServer();
+    // start on ipV4
+    server.listen({ host: '0.0.0.0', port: 1024 }, function () {
+      op.find(
+        {
+          host: '0.0.0.0',
+          ports: [ 1024, 1025 ]
+        },
+        function (err, port) {
+          test.ok(!err);
+          test.equals(1025, port);
+          server.close();
+          test.done();
+        });
+    });
+  },
 };
 

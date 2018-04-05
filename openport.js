@@ -3,7 +3,12 @@ var net = require('net');
 var maxPort = exports.maxPort = 65535;
 var minUserPort = exports.minUserPort = 1024;
 
-var available = function (port, callback) {
+/**
+ * @param  {Number|Object} options (allows for server.listen options)
+ * @param  {function} callback
+ */
+var available = function (options, callback) {
+  var numPort = typeof options === 'number' ? options : options.port;
   var server = net.createServer();
   var callbackCalled = false;
 
@@ -13,14 +18,14 @@ var available = function (port, callback) {
       callback(null, false);
     }
   });
-  server.listen(port, function () {
+  server.listen(options, function () {
     server.close(function() {
-      setTimeout(function() {
+      process.nextTick(function() {
         if (!callbackCalled) {
           callbackCalled = true;
-          callback(null, port);
+          callback(null, numPort);
         }
-      }, 100);
+      });
     });
   });
 };
@@ -70,6 +75,7 @@ function find () {
   var results = [];
   var loop = function () {
     var port;
+    var host = options.host;
     if (options.ports) {
       if (i >= options.ports.length) {
         callback(new Error("no ports found"));
@@ -88,8 +94,13 @@ function find () {
       loop();
       return;
     }
+    
+    var serverOpts = port;
+    if (host) {
+      serverOpts = { host: host, port: port };
+    }
 
-    options.createServer(port, function (err, port) {
+    options.createServer(serverOpts, function (err, port) {
       if (!err && port) {
         results.push(port);
         if (results.length === options.count) {

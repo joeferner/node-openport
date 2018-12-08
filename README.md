@@ -1,3 +1,5 @@
+# Deprecated use [portfinder](https://github.com/indexzero/node-portfinder)
+
 # openport
 
 Finds open network ports.
